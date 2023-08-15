@@ -34,7 +34,13 @@ class Advertisement(models.Model):
             return format_html(
                 '<span style="color: pink; font-weight: bold;">Сегодня в {}</span>', updated_time
             )
-        return self.updated_at.strftime("%d.%m.%Y в %H:%M:%S")
+        return self.updated_at.strftime("%d.%m.%Y в %H:%M:%S")   
+        
+    @admin.display(description='мини-зображение')
+    def show_mini_image(self):
+         if self.image:
+            return format_html('<img scr="{}" weight=50 height=50>', self.image.url)
+        
 
     class Meta:
         db_table = 'advertisements'

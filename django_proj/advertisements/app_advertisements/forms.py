@@ -6,3 +6,9 @@ class AdvertisementForm(forms.Form):
     price = forms.DecimalField(widget=forms.NumberInput(attrs={'class': 'form-control form-control-lg'}))
     auction = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
     image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control form-control-lg'}))
+    
+    def clean_title(self):  # автоматическая валидация title
+        title = self.cleaned_data['title']
+        if title.startswith('?'):
+            raise ValidationError('Заголовок не может начинаться с вопросительного знака.')
+        return title

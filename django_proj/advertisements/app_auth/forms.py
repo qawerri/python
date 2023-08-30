@@ -1,8 +1,17 @@
-from django import forms
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
 
-class AuthenticateForm(forms.Form):
-    username = forms.CharField(max_length=15, widget=forms.TextInput(attrs={'class': 'form-control form-control-lg'}))
-    name = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'class': 'form-control form-control-lg'}))
-    surname = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'class': 'form-control form-control-lg'}))
-    password=forms.CharField(max_length=15, min_length=8, widget=forms.TextInput(attrs={'class': 'form-control form-control-lg'}))
-    confirmation=forms.CharField(max_length=15, min_length=8, widget=forms.TextInput(attrs={'class': 'form-control form-control-lg'}))
+User = get_user_model()
+
+class ExtendedUserCreationForm(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['class'] = 'form-control form-control-lg'
+        self.fields['password1'].widget.attrs['class'] = 'form-control form-control-lg'
+        self.fields['password2'].widget.attrs['class'] = 'form-control form-control-lg'
+        self.fields['first_name'].widget.attrs['class'] = 'form-control form-control-lg'
+        self.fields['last_name'].widget.attrs['class'] = 'form-control form-control-lg'
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'password1', 'password2']

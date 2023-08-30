@@ -21,6 +21,7 @@
         <span style="font-weight: bold;">Разместить объявление</span>
       </a>
     </li>
+	{% if not user.is_authenticated %}
     <li class="nav-item">
       <a class="nav-link active" aria-current="page" href="{% url 'register' %}">
         <span style="font-weight: bold;">Регистрация</span>
@@ -31,6 +32,7 @@
         <span style="font-weight: bold;">Войти</span>
       </a>
     </li>
+	{% else %}
     <li class="nav-item">
       <a class="nav-link" href="{% url 'profile' %}">
         <span style="font-weight: bold;">Профиль</span>
@@ -41,6 +43,7 @@
         <span style="font-weight: bold;">Выйти</span>
       </a>
     </li>
+	{% endif %}
   </ul>
   <div class="container">
   <div class="row">
@@ -50,32 +53,24 @@
       </div>
     </div>
   </div>
+  
+    {{ form.non_field.errors }}
     <form method="post">
-		{%csrf_token%}
+      {% csrf_token %}
+      {% for field in form %}
       <div class="row mb-3">
         <div class="col">
-          <label class="col-sm-4 col-form-label offset-4">Username</label>
+          <label class="col-sm-4 col-form-label offset-4">{{ field.label }}</label>
           <div class="col-sm-4 offset-4 w-25">
-            <input type="text" class="form-control form-control-lg">
+             {{ field }}
+              {% if field.errors %}
+            <div class="form-label bg-warning" style="margin: 10px 0px;">{{ field.errors }}</div>
+            {% endif %}
           </div>
         </div>
       </div>
-      <div class="row mb-3">
-        <div class="col">
-          <label class="col-sm-4 col-form-label offset-4">Name</label>
-          <div class="col-sm-4 offset-4 w-25">
-            <input type="text" class="form-control form-control-lg">
-          </div>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col">
-          <label class="col-sm-4 col-form-label offset-4">Surname</label>
-          <div class="col-sm-4 offset-4 w-25">
-            <input type="text" class="form-control form-control-lg">
-          </div>
-        </div>
-      </div>
+      {% endfor %}
+   
       <div class="row mb-3">
         <div class="col">
           <label class="col-sm-4 col-form-label offset-4">Password</label>

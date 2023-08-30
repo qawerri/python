@@ -42,7 +42,7 @@ class Advertisement(models.Model):
          if self.image:
             return format_html('<img scr="{}" weight=50 height=50>', self.image.url)
         
-      def get_absolute_url(self):
+    def get_absolute_url(self):
         return reverse('adv-detail', kwargs={'pk': self.pk})
         
     class Meta:

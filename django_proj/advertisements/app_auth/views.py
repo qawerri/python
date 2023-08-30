@@ -4,8 +4,6 @@ from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from .forms import ExtendedUserCreationForm
 
-from .forms import AuthenticateForm
-
 def login_view(request):
     redirect_url = reverse('profile')
     if request.method == "GET":
